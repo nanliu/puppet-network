@@ -26,8 +26,11 @@ Puppet::Type.type(:network_config).provide(:redhat) do
   # @return [String] The path to network-script directory on redhat systems
   SCRIPT_DIRECTORY = "/etc/sysconfig/network-scripts"
 
+  # The valid vlan ID range is 0-4095; 4096 is out of range
+  VLAN_RANGE_REGEX = %r[\d{1,3}|40[0-9][0-5]]
+
   # @return [Regexp] The regular expression for interface scripts on redhat systems
-  SCRIPT_REGEX     = %r[\Aifcfg-[a-z]+\d+(?::\d)?\Z]
+  SCRIPT_REGEX     = %r[\Aifcfg-[a-z]+\d+(?::\d+|\.#{VLAN_RANGE_REGEX})?\Z]
 
   NAME_MAPPINGS = {
     :ipaddress  => 'IPADDR',
@@ -36,6 +39,7 @@ Puppet::Type.type(:network_config).provide(:redhat) do
     :onboot     => 'ONBOOT',
     :name       => 'DEVICE',
     :hotplug    => 'HOTPLUG',
+    :mtu        => 'MTU',
   }
 
   # Map provider instances to files based on their name
@@ -219,5 +223,9 @@ Puppet::Type.type(:network_config).provide(:redhat) do
     end
 
     pairs
+  end
+
+  def self.post_flush_hook(filename)
+    File.chmod(0644, filename)
   end
 end
