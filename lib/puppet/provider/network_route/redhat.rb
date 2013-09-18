@@ -17,7 +17,7 @@ Puppet::Type.type(:network_route).provide(:redhat) do
   defaultfor :osfamily => :redhat
 
   def select_file
-    "/etc/sysconfig/network-scripts/route-#{@resource[:interface]}"
+    "/etc/sysconfig/network-scripts/route-#{self.interface}"
   end
 
   def self.target_files
@@ -49,7 +49,7 @@ Puppet::Type.type(:network_route).provide(:redhat) do
 
         new_route[:name]    = cidr_target
         new_route[:network] = "default"
-        new_route[:netmask] = ''
+        new_route[:netmask] = '0.0.0.0'
         new_route[:gateway] = route[2]
         new_route[:interface] = route[4]
       else
