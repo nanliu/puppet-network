@@ -1,5 +1,5 @@
 name    'adrien-network'
-version '0.5.0-dev'
+version '0.5.0'
 author  'Adrien Thebo <adrien@somethingsinistral.net>'
 license 'Apache 2.0'
 
