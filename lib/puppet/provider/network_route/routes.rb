@@ -1,5 +1,12 @@
 require 'ipaddr'
-require 'puppetx/filemapper'
+
+begin
+  require 'puppetx/filemapper'
+rescue LoadError
+  mod = Puppet::Module.find('filemapper', Puppet[:environment].to_s)
+  puts mod.path
+  require File.join mod.path, 'lib/puppetx/filemapper'
+end
 
 Puppet::Type.type(:network_route).provide(:routes) do
   # Debian network_route routes provider.

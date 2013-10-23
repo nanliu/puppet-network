@@ -1,8 +1,8 @@
 begin
   require 'puppet/property/boolean'
 rescue LoadError
-  vmware_module = Puppet::Module.find('boolean', Puppet[:environment].to_s)
-  require File.join vmware_module.path, 'lib/puppet/property/boolean'
+  mod = Puppet::Module.find('boolean', Puppet[:environment].to_s)
+  require File.join mod.path, 'lib/puppet/property/boolean'
 end
 
 Puppet::Type.newtype(:network_config) do

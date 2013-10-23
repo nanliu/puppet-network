@@ -2,6 +2,7 @@ begin
   require 'puppetx/filemapper'
 rescue LoadError
   mod = Puppet::Module.find('filemapper', Puppet[:environment].to_s)
+  puts mod.path
   require File.join mod.path, 'lib/puppetx/filemapper'
 end
 
