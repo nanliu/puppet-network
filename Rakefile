@@ -17,12 +17,13 @@ task :lint do
 end
 
 # Initialize vagrant instance for testing
-desc 'Vagrant system testing.'
+desc "Powers on Vagrant VMs with specific manifests"
 task :vagrant, :manifest do |t, args|
   Rake::Task["spec_prep"].execute
 
   prefix = "VAGRANT_MANIFEST='#{args[:manifest]||'init.pp'}'"
 
+  puts args[:manifest]
   provision = false
   io_popen("export #{prefix}; vagrant up --provider=vmware_fusion") do |line|
     provision = true if line =~ /Machine is already running./
@@ -31,7 +32,7 @@ task :vagrant, :manifest do |t, args|
 end
 
 # Cleanup vagrant environment
-desc 'Vagrant system cleanup.'
+desc "Destroys Vagrant VMs and cleanup spec directory"
 task :vagrant_clean do
   `vagrant destroy`
   Rake::Task["spec_clean"].execute

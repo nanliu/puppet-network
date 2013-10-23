@@ -11,7 +11,7 @@ end
 
 facterversion = ENV['GEM_FACTER_VERSION']
 if facterversion
-  gem 'facter', *location_for(facterversion)
+  gem 'facter', facterversion
 else
   gem 'facter', :require => false
 end
@@ -19,18 +19,7 @@ end
 ENV['GEM_PUPPET_VERSION'] ||= ENV['PUPPET_GEM_VERSION']
 puppetversion = ENV['GEM_PUPPET_VERSION']
 if puppetversion
-  gem 'puppet', *location_for(puppetversion)
+  gem 'puppet', puppetversion
 else
   gem 'puppet', :require => false
-end
-
-group :test, :development do
-  gem 'rspec', '~> 2.10.0'
-  gem 'mocha', '~> 0.10.5'
-  gem 'rspec-puppet', :git => 'https://github.com/rodjek/rspec-puppet'
-  gem 'rake'
-end
-
-if File.exists? "#{__FILE__}.local"
-  eval(File.read("#{__FILE__}.local"), binding)
 end
